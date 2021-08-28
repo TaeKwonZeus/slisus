@@ -3,6 +3,7 @@ package slisus
 
 import "reflect"
 
+// Entry represents a key-value pair in a map.
 type Entry struct {
 	Key   interface{}
 	Value interface{}
