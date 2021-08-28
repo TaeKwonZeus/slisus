@@ -100,3 +100,24 @@ func Associate(slice []interface{}, transform func(interface{}) Entry) map[inter
 
 	return out
 }
+
+// Chunked splits slice into smaller slices each not exceeding size.
+func Chunked(slice []interface{}, size int) [][]interface{} {
+	var out [][]interface{}
+
+	if size <= 0 {
+		return out
+	}
+
+	for i := 0; i < len(slice); i += size {
+		end := i + size
+
+		if end > len(slice) {
+			end = len(slice)
+		}
+
+		out = append(out, slice[i:end])
+	}
+
+	return out
+}
