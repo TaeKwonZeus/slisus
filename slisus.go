@@ -9,6 +9,29 @@ type Entry struct {
 	Value interface{}
 }
 
+// All checks if all elements in slice match predicate.
+func All(slice []interface{}, predicate func(element interface{}) bool) bool {
+	for _, i := range slice {
+		if !predicate(i) {
+			return false
+		}
+	}
+
+	return true
+}
+
+// Associate returns a map of entries provided by slice mapped with transform.
+func Associate(slice []interface{}, transform func(interface{}) Entry) map[interface{}]interface{} {
+	out := map[interface{}]interface{}{}
+
+	for _, i := range slice {
+		entry := transform(i)
+		out[entry.Key] = entry.Value
+	}
+
+	return out
+}
+
 // Contains checks if slice contains element.
 func Contains(slice []interface{}, element interface{}) bool {
 	for _, i := range slice {
@@ -29,6 +52,27 @@ func ContainsAll(slice []interface{}, elements []interface{}) bool {
 	}
 
 	return true
+}
+
+// Chunked splits slice into smaller slices each not exceeding size.
+func Chunked(slice []interface{}, size int) [][]interface{} {
+	out := [][]interface{}{}
+
+	if size <= 0 {
+		return out
+	}
+
+	for i := 0; i < len(slice); i += size {
+		end := i + size
+
+		if end > len(slice) {
+			end = len(slice)
+		}
+
+		out = append(out, slice[i:end])
+	}
+
+	return out
 }
 
 // Get returns an element from slice with a specified index.
@@ -68,56 +112,12 @@ func LastIndexOf(slice []interface{}, element interface{}) int {
 	return -1
 }
 
-// All checks if all elements in slice match predicate.
-func All(slice []interface{}, predicate func(element interface{}) bool) bool {
-	for _, i := range slice {
-		if !predicate(i) {
-			return false
-		}
-	}
-
-	return true
-}
-
 // Reversed returns reversed slice.
 func Reversed(slice []interface{}) []interface{} {
 	out := []interface{}{}
 
 	for i := len(slice) - 1; i >= 0; i-- {
 		out = append(out, slice[i])
-	}
-
-	return out
-}
-
-// Associate returns a map of entries provided by slice mapped with transform.
-func Associate(slice []interface{}, transform func(interface{}) Entry) map[interface{}]interface{} {
-	out := map[interface{}]interface{}{}
-
-	for _, i := range slice {
-		entry := transform(i)
-		out[entry.Key] = entry.Value
-	}
-
-	return out
-}
-
-// Chunked splits slice into smaller slices each not exceeding size.
-func Chunked(slice []interface{}, size int) [][]interface{} {
-	out := [][]interface{}{}
-
-	if size <= 0 {
-		return out
-	}
-
-	for i := 0; i < len(slice); i += size {
-		end := i + size
-
-		if end > len(slice) {
-			end = len(slice)
-		}
-
-		out = append(out, slice[i:end])
 	}
 
 	return out
