@@ -81,7 +81,7 @@ func All(slice []interface{}, predicate func(element interface{}) bool) bool {
 
 // Reversed returns reversed slice.
 func Reversed(slice []interface{}) []interface{} {
-	var out []interface{}
+	out := []interface{}{}
 
 	for i := len(slice) - 1; i >= 0; i-- {
 		out = append(out, slice[i])
@@ -92,7 +92,7 @@ func Reversed(slice []interface{}) []interface{} {
 
 // Associate returns a map of entries provided by slice mapped with transform.
 func Associate(slice []interface{}, transform func(interface{}) Entry) map[interface{}]interface{} {
-	var out map[interface{}]interface{}
+	out := map[interface{}]interface{}{}
 
 	for _, i := range slice {
 		entry := transform(i)
@@ -104,7 +104,7 @@ func Associate(slice []interface{}, transform func(interface{}) Entry) map[inter
 
 // Chunked splits slice into smaller slices each not exceeding size.
 func Chunked(slice []interface{}, size int) [][]interface{} {
-	var out [][]interface{}
+	out := [][]interface{}{}
 
 	if size <= 0 {
 		return out
